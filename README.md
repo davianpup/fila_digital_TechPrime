@@ -58,7 +58,7 @@ CREATE DATABASE fila_digital;
 USE fila_digital;
 
 
-CREATE TABLE IF NOT EXISTS usuarios (
+CREATE TABLE IF NOT EXISTS cliente (
      idCliente INT AUTO_INCREMENT PRIMARY KEY,
     nome VARCHAR(45) NOT NULL,
     telefone VARCHAR(45),
@@ -69,14 +69,14 @@ CREATE TABLE IF NOT EXISTS usuarios (
     ultima_atualizacao DATETIME
 );
 
-USE sistema_cadastro;
-SELECT * FROM usuarios;
+USE fila_digital;
+SELECT * FROM clientes;
 
 -- Deletar apenas um id
-DELETE FROM usuarios WHERE id = ' ';
+DELETE FROM usuarios WHERE idCliente = ' ';
 
 -- Deletar a tabela completa
-TRUNCATE TABLE usuarios;
+TRUNCATE TABLE cliente;
 ```
 
 ---
