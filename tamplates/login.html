@@ -5,9 +5,9 @@
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
   <title>ANDA LOGO</title>
 
-  <link rel="stylesheet" href="{{ url_for('static', filename='login_style.css') }}">
+  <link rel="stylesheet" href="/static/css/style_LoginCnpj.css">
 </head>
-<body class="login-page">
+<body>
 
   <div class="bg-effects"></div>
 
@@ -19,14 +19,13 @@
 
       <form class="form" id="form" novalidate>
 
-        <!-- ===== MODO CLIENTE ===== -->
+        <!-- ===== CLIENTE (ÚNICO) ===== -->
         <div class="mode" id="modeClient">
 
           <p class="subtitle">Digite seu nome e entre na fila em segundos.</p>
 
           <div class="inputWrap">
             <span class="inputIcon" aria-hidden="true">
-              <!-- ícone usuário -->
               <svg viewBox="0 0 24 24" width="18" height="18" fill="none">
                 <path d="M20 21a8 8 0 10-16 0" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
                 <path d="M12 11a4 4 0 100-8 4 4 0 000 8z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
@@ -60,103 +59,6 @@
             </div>
           </div>
 
-          <div class="divider">
-            <span class="dividerLine"></span>
-            <span class="dividerText">OU</span>
-            <span class="dividerLine"></span>
-          </div>
-
-          <button type="button" class="btnSecondary" id="bizBtn">
-            <span class="bizIcon" aria-hidden="true">
-              <!-- ícone prédio -->
-              <svg viewBox="0 0 24 24" width="18" height="18" fill="none">
-                <path d="M4 21V7a2 2 0 0 1 2-2h4v16" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
-                <path d="M10 21V3h8a2 2 0 0 1 2 2v16" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
-                <path d="M7 9h0" stroke="currentColor" stroke-width="3" stroke-linecap="round"/>
-                <path d="M7 12h0" stroke="currentColor" stroke-width="3" stroke-linecap="round"/>
-                <path d="M7 15h0" stroke="currentColor" stroke-width="3" stroke-linecap="round"/>
-                <path d="M14 9h0" stroke="currentColor" stroke-width="3" stroke-linecap="round"/>
-                <path d="M14 12h0" stroke="currentColor" stroke-width="3" stroke-linecap="round"/>
-                <path d="M14 15h0" stroke="currentColor" stroke-width="3" stroke-linecap="round"/>
-              </svg>
-            </span>
-            Sou um estabelecimento
-          </button>
-
-        </div>
-
-        <!-- ===== MODO ESTABELECIMENTO ===== -->
-        <div class="mode hidden" id="modeBiz">
-
-          <p class="subtitle">Acesse o painel do seu estabelecimento.</p>
-
-          <div class="inputWrap">
-            <span class="inputIcon" aria-hidden="true">
-              <!-- ícone email -->
-              <svg viewBox="0 0 24 24" width="18" height="18" fill="none">
-                <path d="M4 6h16v12H4z" stroke="currentColor" stroke-width="2" stroke-linejoin="round"/>
-                <path d="M4 7l8 6 8-6" stroke="currentColor" stroke-width="2" stroke-linejoin="round"/>
-              </svg>
-            </span>
-
-            <input
-              id="bizEmail"
-              type="email"
-              class="input"
-              placeholder="Email da empresa"
-              autocomplete="email"
-            >
-          </div>
-
-          <div class="inputWrap">
-            <span class="inputIcon" aria-hidden="true">
-              <!-- ícone cadeado -->
-              <svg viewBox="0 0 24 24" width="18" height="18" fill="none">
-                <path d="M7 11V8a5 5 0 0 1 10 0v3" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
-                <path d="M6 11h12v10H6z" stroke="currentColor" stroke-width="2" stroke-linejoin="round"/>
-              </svg>
-            </span>
-
-            <input
-              id="bizPass"
-              type="password"
-              class="input hasEye"
-              placeholder="Senha"
-              autocomplete="current-password"
-            >
-
-            <button type="button" class="eyeBtn" id="togglePass" aria-label="Mostrar senha">
-              <!-- ícone olho -->
-              <svg viewBox="0 0 24 24" width="18" height="18" fill="none">
-                <path d="M2 12s3.5-7 10-7 10 7 10 7-3.5 7-10 7S2 12 2 12z" stroke="currentColor" stroke-width="2"/>
-                <path d="M12 15a3 3 0 1 0 0-6 3 3 0 0 0 0 6z" stroke="currentColor" stroke-width="2"/>
-              </svg>
-            </button>
-          </div>
-
-          <p class="error" id="bizError"></p>
-
-          <button type="button" class="btn" id="btnBiz">Entrar no painel</button>
-
-          <button type="button" class="linkSoft" id="forgotBtn">Esqueceu a senha?</button>
-
-          <div class="divider">
-            <span class="dividerLine"></span>
-            <span class="dividerText">OU</span>
-            <span class="dividerLine"></span>
-          </div>
-
-          <button type="button" class="btnSecondary" id="backClientBtn">
-            <span class="bizIcon" aria-hidden="true">
-              <!-- ícone usuário -->
-              <svg viewBox="0 0 24 24" width="18" height="18" fill="none">
-                <path d="M20 21a8 8 0 10-16 0" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
-                <path d="M12 11a4 4 0 100-8 4 4 0 000 8z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-              </svg>
-            </span>
-            Entrar na fila como cliente
-          </button>
-
         </div>
 
       </form>
@@ -185,17 +87,13 @@
 
       <p class="successName" id="successName">Seu Nome</p>
 
-       <div class="successActions">
-        <button class="successBtn">Acompanhar fila</button>
+      <div class="successActions">
+        <button class="successBtn" type="button">Acompanhar fila</button>
 
         <button class="editName" id="editNameBtn" type="button">
-            Editar nome
+          Editar nome
         </button>
-        </div>
-
-
-
-
+      </div>
     </div>
   </div>
 
@@ -207,11 +105,7 @@
     <span class="footerCopy">© 2026</span>
   </footer>
 
-  <script src="{{ url_for('static', filename='js/scripts.js') }}"></script>
+  <script src="/static/js/app_LoginCnpj.js"></script>
 
-</body>
-<body class="login-page-body">
-    <div class="login-box">
-        </div>
 </body>
 </html>

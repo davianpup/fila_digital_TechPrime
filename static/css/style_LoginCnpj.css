@@ -19,15 +19,20 @@
 html,body{ height:100%; }
 body{
   font-family: system-ui,-apple-system,Segoe UI,Roboto,Arial,sans-serif;
+
+  /* ✅ glow no topo + glow no rodapé (resolve essa faixa “morta”) */
   background:
     radial-gradient(circle at top, rgba(255,122,0,.10), transparent 60%),
+    radial-gradient(circle at bottom, rgba(255,122,0,.10), transparent 55%),
     var(--bg);
-  color:var(--white);
+
+  color: var(--white);
 }
+
 
 /* FUNDO */
 .bg-effects{
-  position:fixed;
+  position:relative;
   inset:0;
   pointer-events:none;
   background:
@@ -48,7 +53,10 @@ body{
 .modal{
   width: 100%;
   max-width: 480px;
-  min-height: 520px;
+
+  /* ✅ não força altura enorme */
+  min-height: unset;
+  height: auto;
 
   background: linear-gradient(180deg, #1a1a1a, #101010);
   border-radius: 18px;
@@ -59,10 +67,10 @@ body{
   text-align: center;
   position: relative;
 
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
+  /* ✅ não centraliza verticalmente (evita “buraco” em cima e em baixo) */
+  display: block;
 }
+
 
 /* TÍTULO */
 .title{
@@ -178,7 +186,7 @@ body{
   border:0;
   background:transparent;
   color:rgba(255,255,255,.65);
-  font-weight:700;
+  font-weight:500;
   font-size:14px;
   cursor:pointer;
   display:inline-flex;
@@ -217,7 +225,8 @@ body{
   .modal,
   .success{
     max-width: 92vw;
-    min-height: 480px;
+    min-height: unset;
+    height: auto;
     padding: 28px 22px 22px;
   }
   .title{ font-size:34px; }
@@ -518,17 +527,18 @@ body.lock{ overflow:hidden; }
   letter-spacing: .16em;
   color: rgba(255,255,255,.40);
 }
+/* ===== BOTÃO SECUNDÁRIO (EXATAMENTE COMO NO PRINT) ===== */
 .btnSecondary{
   margin-top: 14px;
   width: 100%;
   padding: 14px 14px;
   border-radius: 14px;
 
-  background: rgba(255,255,255,.03);
-  border: 1px solid rgba(255,255,255,.12);
+  background: transparent;
+  border: 1px solid rgba(255,255,255,.22);
 
-  color: rgba(255,255,255,.75);
-  font-weight: 700;
+  color: rgba(255,255,255,.55);
+  font-weight: 600;
   font-size: 15px;
 
   cursor: pointer;
@@ -537,14 +547,31 @@ body.lock{ overflow:hidden; }
   justify-content: center;
   gap: 10px;
 
-  transition: transform .12s ease, background .18s ease, border-color .18s ease;
+  transition:
+    color .2s ease,
+    border-color .2s ease,
+    background .2s ease,
+    transform .12s ease;
 }
+
+/* ÍCONE segue a cor do texto */
+.btnSecondary .bizIcon{
+  color: inherit;
+}
+
+/* HOVER */
 .btnSecondary:hover{
+  color: #ffffff;
+  border-color: #ff6600;
+  background: rgba(255,102,0,.04);
   transform: translateY(-1px);
-  background: rgba(255,255,255,.05);
-  border-color: rgba(255,255,255,.18);
 }
-.btnSecondary:active{ transform: translateY(1px); }
+
+/* ACTIVE (clique) */
+.btnSecondary:active{
+  transform: translateY(0);
+  background: rgba(255,102,0,.08);
+}
 .bizIcon{ display: grid; place-items: center; color: rgba(255,255,255,.65); }
 
 /* ===== MODO CLIENTE / ESTABELECIMENTO ===== */
@@ -632,4 +659,389 @@ body.lock{ overflow:hidden; }
     display: block;
     text-align: center;
   }
+}
+
+/* ===== LINHA DE LINKS (ESTABELECIMENTO) ===== */
+.bizLinksRow{
+  margin-top: 8px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+}
+
+/* base */
+.linkSoft{
+  border: 0;
+  background: transparent;
+  font-size: 14px;
+  font-weight: 500;                  /* sem negrito */
+  color: rgba(255,255,255,.55);
+  cursor: pointer;
+  padding: 8px 10px;
+  border-radius: 10px;
+  transition: color .18s ease, background .18s ease;
+}
+
+/* ESQUERDA */
+.linkLeft{
+  padding-left: 0;
+}
+
+/* 👉 DIREITA – CRIAR CONTA */
+.linkRight{
+  padding-right: 0;
+  font-weight: 500;
+  color: #ff6600;                    /* LARANJA GARANTIDO */
+}
+
+/* hover */
+.linkSoft:hover{
+  background: rgba(255,255,255,.05);
+  color: rgba(255,255,255,.85);
+}
+
+/* hover específico do criar conta */
+.linkRight:hover{
+  color: #ff7a00;
+}
+
+/* ===== MODO CRIAR CONTA: espaçamento entre inputs ===== */
+#modeBizSignup .inputWrap + .inputWrap{
+  margin-top: 14px;
+}
+
+/* ===== Linha "Já tem uma conta? Fazer login" ===== */
+#modeBizSignup .bizLinksRow{
+  margin-top: 10px;
+}
+
+/* frase "Já tem uma conta? Fazer login" */
+.authSwitch{
+  margin-top: 14px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 6px;
+
+  font-size: 14px;
+  color: rgba(255,255,255,.55);
+  font-weight: 400;
+}
+
+/* link Fazer login */
+.authLink{
+  border: 0;
+  background: transparent;
+  padding: 0;
+
+  font-size: 14px;
+  font-weight: 500;          /* NÃO negrito */
+  color: var(--orange);
+  cursor: pointer;
+
+  transition: opacity .15s ease, transform .15s ease;
+}
+
+.authLink:hover{
+  opacity: .85;
+  transform: translateY(-1px);
+}
+
+/* ===== MODO "ESQUECEU A SENHA" (card compacto igual ao print) ===== */
+.modal.compact{
+  min-height: 0;              /* tira a altura travada */
+  padding: 28px 28px 22px;    /* mais compacto */
+}
+
+@media (max-width: 520px){
+  .modal.compact{
+    padding: 22px 18px 18px;
+  }
+}
+
+/* garante que o botão/link fiquem com o espaçamento igual ao print */
+#modeBizForgot .btn{
+  margin-top: 14px;
+}
+
+#modeBizForgot .linkSoft{
+  margin-top: 12px;
+}
+
+/* ===== SUCESSO: desktop igual ao print (sem alterar mobile) ===== */
+@media (min-width: 481px){
+  /* vira “área” pra posicionar o Editar nome no canto */
+  .success{
+    position: relative;
+  }
+
+  /* garante espaço no rodapé do modal pro canto */
+  .successActions{
+    position: relative;
+    margin-top: 26px;
+    padding-bottom: 18px; /* espaço pro “Editar nome” */
+    display: block;       /* não usa flex no desktop */
+  }
+
+  /* botão centralizado */
+  .successBtn{
+    display: block;
+    margin: 0 auto;       /* central */
+    width: auto;
+    min-width: 200px;
+  }
+
+  /* “Editar nome” no canto inferior direito */
+  #editNameBtn.editName{
+    position: absolute;
+    right: 26px;
+    bottom: 22px;
+    margin: 0;
+    padding: 10px 0;
+    opacity: .7;
+  }
+
+  #editNameBtn.editName:hover{
+    opacity: 1;
+    background: transparent; /* igual ao print */
+    transform: none;
+  }
+}
+
+/* ===== SUCESSO: desktop igual ao print (sem mexer no mobile) ===== */
+@media (min-width: 481px){
+
+  .success{
+    position: relative !important;
+  }
+
+  /* área do botão central */
+  .successActions{
+    display: flex !important;
+    justify-content: center !important;
+    align-items: center !important;
+    gap: 0 !important;
+    margin-top: 26px !important;
+    padding-bottom: 34px !important; /* espaço pro "Editar nome" embaixo */
+  }
+
+  /* botão centralizado e com largura controlada */
+  .successBtn{
+    display: inline-flex !important;
+    width: auto !important;
+    min-width: 200px !important;
+    margin: 0 !important;
+  }
+
+  /* "Editar nome" preso no canto inferior direito do modal */
+  @media (min-width: 481px){
+
+  .success{
+    position: relative !important;
+  }
+
+  #editNameBtn{
+    position: absolute !important;
+
+    /* força o canto inferior direito REAL */
+    right: 16px !important;
+    bottom: 16px !important;
+
+    margin: 0 !important;
+    padding: 0 !important;
+
+    background: transparent !important;
+    font-weight: 500 !important;
+    opacity: .65 !important;
+    line-height: 1 !important;
+    white-space: nowrap !important;
+  }
+
+  #editNameBtn:hover{
+    opacity: 1 !important;
+  }
+}
+}
+
+/* =========================
+   CADASTRO 2 ETAPAS (CNPJ)
+========================= */
+
+.modalClose{
+  position:absolute;
+  top:16px;
+  right:16px;
+  width:36px;
+  height:36px;
+  border-radius:12px;
+  border:1px solid rgba(255,255,255,.12);
+  background: rgba(255,255,255,.04);
+  color: rgba(255,255,255,.55);
+  cursor:pointer;
+  display:grid;
+  place-items:center;
+  font-size:22px;
+  line-height:1;
+  transition: background .18s ease, color .18s ease, border-color .18s ease, transform .18s ease;
+}
+.modalClose:hover{
+  background: rgba(255,255,255,.06);
+  color: rgba(255,255,255,.85);
+  border-color: rgba(255,255,255,.18);
+  transform: translateY(-1px);
+}
+
+.stepper{
+  margin: 10px auto 14px;
+  width: 100%;
+  max-width: 360px;
+  text-align:center;
+}
+.stepperTop{
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  gap: 14px;
+  margin-bottom: 8px;
+}
+.stepDot{
+  width: 34px;
+  height: 34px;
+  border-radius: 999px;
+  display:grid;
+  place-items:center;
+  font-weight: 800;
+  font-size: 14px;
+  background: rgba(255,255,255,.06);
+  color: rgba(255,255,255,.55);
+  border: 1px solid rgba(255,255,255,.14);
+}
+.stepDot.active{
+  background: rgba(255,122,0,.14);
+  color: var(--orange);
+  border-color: rgba(255,122,0,.55);
+}
+.stepDot.done{
+  background: rgba(255,122,0,.14);
+  color: var(--orange);
+  border-color: rgba(255,122,0,.45);
+}
+.stepLine{
+  height: 2px;
+  width: 70px;
+  background: rgba(255,255,255,.10);
+  border-radius: 99px;
+  position: relative;
+  overflow:hidden;
+}
+.stepLine.filled::after{
+  content:"";
+  position:absolute;
+  inset:0;
+  background: rgba(255,122,0,.65);
+}
+.stepperText{
+  font-size: 13px;
+  color: rgba(255,255,255,.55);
+  font-weight: 600;
+}
+
+.signupStep{ width:100%; }
+
+.fieldLabel{
+  display:block;
+  text-align:left;
+  font-size: 12.5px;
+  font-weight: 700;
+  color: rgba(255,255,255,.70);
+  margin: 12px 0 6px;
+}
+
+@media (max-width: 520px){
+  .grid2{ grid-template-columns: 1fr; }
+}
+
+.selectInput{
+  appearance:none;
+  -webkit-appearance:none;
+  -moz-appearance:none;
+  padding-right: 44px;
+}
+
+
+/* =========================
+   FIX: esconder QUALQUER coisa com .hidden
+   (steps do cadastro 2 etapas)
+========================= */
+.hidden{
+  display: none !important;
+}
+
+/* reforço só pros steps */
+.signupStep.hidden{
+  display: none !important;
+}
+
+@media (max-height: 720px){
+  .modal{
+    padding: 26px 24px 20px;
+  }
+}
+
+/* SELECT (dropdown) no tema escuro */
+select.input,
+select.selectInput{
+  background: rgba(255,255,255,.08);
+  color: #fff;
+  border: 1px solid rgba(255,255,255,.12);
+}
+
+/* Opções dentro do dropdown (importante) */
+select.input option,
+select.selectInput option{
+  background: #111217;       /* fundo escuro */
+  color: #fff;               /* texto branco */
+}
+
+/* Placeholder tipo "Selecione" (se você usa value="") */
+select.input option[disabled],
+select.selectInput option[disabled]{
+  color: rgba(255,255,255,.45);
+}
+
+/* Foco igual seus inputs */
+select.input:focus,
+select.selectInput:focus{
+  outline: none;
+  border-color: rgba(255,122,0,.55);
+  box-shadow: 0 0 0 3px rgba(255,122,0,.18);
+}
+
+.inputIcon{
+  pointer-events: none;
+}
+
+.inputWrap::after{
+  pointer-events: none;
+}
+
+select.input,
+select.selectInput{
+  position: relative;
+  z-index: 2;
+  pointer-events: auto;
+  -webkit-appearance: menulist; /* iOS */
+  appearance: menulist;
+}
+
+/* ❌ Esconde o X APENAS no login do estabelecimento */
+#modeBiz:not(.hidden) ~ .modalClose,
+#modeBiz:not(.hidden) .modalClose{
+  display: none !important;
+}
+
+/* Esconde o X somente quando o modal estiver com a classe no-close */
+.modal.no-close .modalClose{
+  display: none !important;
 }

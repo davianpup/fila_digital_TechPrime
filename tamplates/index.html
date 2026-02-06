@@ -6,13 +6,13 @@
     <meta name="description" content="Anda Logo - Fila Digital" />
     <meta name="author" content="Equipe Anda Logo" />
     <title>ANDA LOGO</title>
-    <link rel="icon" type="image/png" href="assets/favicon.icon.png" />
+    <link rel="icon" type="image/png" href="/assets/favicon.icon.png" />
     
     <script src="https://use.fontawesome.com/releases/v6.3.0/js/all.js" crossorigin="anonymous"></script>
     <link href="https://fonts.googleapis.com/css?family=Montserrat:400,700" rel="stylesheet" type="text/css" />
     <link href="https://fonts.googleapis.com/css?family=Roboto+Slab:400,100,300,700" rel="stylesheet" type="text/css" />
     
-    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    <link href="/static/css/styles.css" rel="stylesheet" />
 
 
 </head>
@@ -20,7 +20,7 @@
     <nav class="navbar navbar-expand-lg navbar-dark fixed-top" id="mainNav">
         <div class="container">
             <a class="navbar-brand" href="#page-top">
-                <img src="{{ url_for('static', filename='NAV3.png') }}" alt="ANDA LOGO" class="logo-navbar">
+                <img src="/assets/img/NAV3.png" alt="ANDA LOGO" class="logo-navbar">
             </a>
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
                 Menu <i class="fas fa-bars ms-1"></i>
@@ -41,7 +41,7 @@
         <div class="container">
             <div class="masthead-subheading"> </div>
             <div class="masthead-heading text-uppercase">A fila anda. Você também.</div>
-            <a class="btn btn-primary btn-xl text-uppercase" href="{{ url_for('login') }}">Fazer Login</a>
+            <a class="btn btn-primary btn-xl text-uppercase" href="cnpj.html">Fazer Login</a>
         </div>
     </header>
 
@@ -88,8 +88,7 @@
             </div>
             <ul class="timeline">
                 <li>
-                    <div class="timeline-image"><img class="rounded-circle img-fluid" src="{{ url_for('static', filename='1.png') }}" alt="...">
-                    </div>
+                    <div class="timeline-image"><img class="rounded-circle img-fluid" src="/assets/img/about/1.png" alt="..." /></div>
                     <div class="timeline-panel text-center">
                         <div class="timeline-heading">
                             <h4>2024</h4>
@@ -101,8 +100,7 @@
                     </div>
                 </li>
                 <li class="timeline-inverted">
-                    <div class="timeline-image"><img class="rounded-circle img-fluid" src="{{ url_for('static', filename='2.png') }}" alt="...">
-                    </div>
+                    <div class="timeline-image"><img class="rounded-circle img-fluid" src="/assets/img/about/2.png" alt="..." /></div>
                     <div class="timeline-panel text-center">
                         <div class="timeline-heading">
                             <h4>Início de 2025</h4>
@@ -114,8 +112,7 @@
                     </div>
                 </li>
                 <li>
-                    <div class="timeline-image"><img class="rounded-circle img-fluid" src="{{ url_for('static', filename='3.png') }}" alt="...">
-                    </div>
+                    <div class="timeline-image"><img class="rounded-circle img-fluid" src="/assets/img/about/3.png" alt="..." /></div>
                     <div class="timeline-panel text-center">
                         <div class="timeline-heading">
                             <h4>Julho 2025</h4>
@@ -127,8 +124,7 @@
                     </div>
                 </li>
                 <li class="timeline-inverted">
-                    <div class="timeline-image"><img class="rounded-circle img-fluid" src="{{ url_for('static', filename='4.png') }}" alt="...">
-                    </div>
+                    <div class="timeline-image"><img class="rounded-circle img-fluid" src="/assets/img/about/4.png" alt="..." /></div>
                     <div class="timeline-panel text-center">
                         <div class="timeline-heading">
                             <h4>2026</h4>
@@ -156,42 +152,42 @@
             <div class="row">
                 <div class="col-lg-4">
                     <div class="team-member">
-                        <img class="mx-auto rounded-circle" src="{{ url_for('static', filename='davi.jpeg') }}" alt="Davi">
+                        <img class="mx-auto rounded-circle" src="/assets/img/team/davi.jpeg" alt="Davi" />
                         <h4>Davi Ângelo</h4>
                         <p class="text-muted">Scrum Master</p>
                     </div>
                 </div>
                 <div class="col-lg-4">
                     <div class="team-member">
-                        <img class="mx-auto rounded-circle" src="{{ url_for('static', filename='avila.jpeg') }}" alt="Gabriel Ávila">
+                        <img class="mx-auto rounded-circle" src="/assets/img/team/avila.jpeg" alt="Gabriel Ávila" />
                         <h4>Gabriel Ávila</h4>
                         <p class="text-muted">Desenvolvedor</p>
                     </div>
                 </div>
                 <div class="col-lg-4">
                     <div class="team-member">
-                        <img class="mx-auto rounded-circle" src="{{ url_for('static', filename='duarte.jpeg') }}" alt="Gabriel Duarte">
+                        <img class="mx-auto rounded-circle" src="/assets/img/team/duarte.jpeg" alt="Gabriel Duarte" />
                         <h4>Gabriel Duarte</h4>
                         <p class="text-muted">Desenvolvedor</p>
                     </div>
                 </div>
                 <div class="col-lg-4">
                     <div class="team-member">
-                        <img class="mx-auto rounded-circle" src="{{ url_for('static', filename='randolfo.jpeg') }}" alt="Gabriel Randolfo">
+                        <img class="mx-auto rounded-circle" src="/assets/img/team/randolfo.jpeg" alt="Gabriel Randolfo" />
                         <h4>Gabriel Randolfo</h4>
                         <p class="text-muted">Desenvolvedor</p>
                     </div>
                 </div>
                 <div class="col-lg-4">
                     <div class="team-member">
-                        <img class="mx-auto rounded-circle" src="{{ url_for('static', filename='yago.jpeg') }}" alt="Yago">
+                        <img class="mx-auto rounded-circle" src="/assets/img/team/yago.jpeg" alt="Yago" />
                         <h4>Yago Oliveira</h4>
                         <p class="text-muted">Desenvolvedor</p>
                     </div>
                 </div>
                 <div class="col-lg-4">
                     <div class="team-member">
-                        <img class="mx-auto rounded-circle" src="{{ url_for('static', filename='yuri.jpeg') }}" alt="Yuri">
+                        <img class="mx-auto rounded-circle" src="/assets/img/team/yuri.jpeg" alt="Yuri" />
                         <h4>Yuri Duarte</h4>
                         <p class="text-muted">Desenvolvedor</p>
                     </div>
@@ -245,7 +241,7 @@
         </div>
     </footer>
 
-    <script src="{{ url_for('static', filename='js/scripts.js') }}"></script>
-    <script src="js/scripts.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="/static/js/app_index.js"></script>
 </body>
 </html>

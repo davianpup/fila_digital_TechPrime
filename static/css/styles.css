@@ -10953,13 +10953,15 @@ p {
   }
 }
 header.masthead {
-  padding-top: 5rem;
-  padding-bottom: 5rem;
+  padding-top: 10.5rem;
+  padding-bottom: 6rem;
   text-align: center;
-  color: #ffffff;
-  /* Degradê do cinza escuro para o preto puro */
-  background: linear-gradient(180deg, #2c2c2c 0%, #000000 100%);
-  border-bottom: 1px solid #333; /* Uma linha sutil para separar do corpo do site */
+  color: #fff;
+  background-image: url("../assets/img/header-bg.jpg");
+  background-repeat: no-repeat;
+  background-attachment: scroll;
+  background-position: center center;
+  background-size: cover;
 }
 header.masthead .masthead-subheading {
   font-size: 1.5rem;
@@ -11265,7 +11267,7 @@ header.masthead .masthead-heading {
 
 section#contact {
   background-color: #212529;
-  background-image: url("map-image.png");
+  background-image: url("/assets/img/map-image.png");
   background-repeat: no-repeat;
   background-position: center;
 }
@@ -11393,12 +11395,15 @@ a:hover {
 /* --- NAVBAR (MENU) --- */
 /* --- NAVBAR (MENU) --- */
 #mainNav {
-    background-color: #000000 !important;
-    padding-top: 5px !important;    /* Reduzido para o mínimo */
-    padding-bottom: 5px !important; /* Reduzido para o mínimo */
+    background-color: transparent !important;
+    padding-top: 25px !important;
+    padding-bottom: 25px !important;
     position: fixed;
     width: 100%;
     z-index: 1030;
+    transition: all 0.3s ease;
+    border: none !important;
+    box-shadow: none !important;
 }
 
 /* Isso faz com que a barra ocupe quase toda a largura da tela, jogando a logo para o canto */
@@ -11408,9 +11413,6 @@ a:hover {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    /* ADICIONE OU ALTERE ESTA LINHA: */
-    padding-top: 5px !important;    
-    padding-bottom: 5px !important;
 }
 
 #mainNav.navbar-shrink {
@@ -11420,9 +11422,11 @@ a:hover {
 }
 
 #mainNav .navbar-brand img {
-    height: 40px !important;      /* Reduzimos pela metade */
-    margin-left: -20px !important; /* Ajustamos a margem para não fugir tanto */
+    height: 80px !important;
     width: auto !important;
+    max-height: none !important;
+    /* Ajuste este valor se quiser que ela "saia" ainda mais para a esquerda */
+    margin-left: -50px !important; 
     transition: all 0.3s ease;
 }
 
@@ -11443,7 +11447,7 @@ a:hover {
 
 /* --- MASTHEAD (CABEÇALHO) --- */
 header.masthead {
-    background-image: url("DETLUZ.png") !important;
+    background-image: url("/assets/img/DETLUZ.png") !important;
     background-size: cover !important;
     background-position: center !important;
     background-repeat: no-repeat !important;
@@ -11547,4 +11551,3 @@ header.masthead {
             justify-content: center;
             padding: 100px 0; /* Ajuste para não bater na navbar fixa */
         }
-
