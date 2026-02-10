@@ -1,3 +1,40 @@
+const API_BASE = "http://localhost:8010";  // ajuste pro seu IP/porta (ex: http://192.168.56.1:8010)
+
+async function postJSON(url, data) {
+  const res = await fetch(url, {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify(data),
+  });
+
+  let payload = null;
+  let rawText = "";
+  try { payload = await res.json(); }
+  catch { rawText = await res.text().catch(() => ""); }
+
+  if (!res.ok) {
+    const msg =
+      payload?.detail ||
+      payload?.message ||
+      rawText?.slice(0, 200) ||
+      `Erro ao salvar. (HTTP ${res.status})`;
+    throw new Error(msg);
+  }
+  return payload;
+}
+
+// Promessa de geolocalização (se precisar latitude/longitude)
+function getGeo() {
+  return new Promise((resolve, reject) => {
+    if (!navigator.geolocation) return reject(new Error("Geolocalização não suportada."));
+    navigator.geolocation.getCurrentPosition(
+      (pos) => resolve({ latitude: pos.coords.latitude, longitude: pos.coords.longitude }),
+      () => reject(new Error("Não foi possível obter localização.")),
+      { enableHighAccuracy: true, timeout: 8000 }
+    );
+  });
+}
+
 const form = document.getElementById("form");
 const nomeInput = document.getElementById("nome");
 const errorEl = document.getElementById("error");
@@ -32,8 +69,8 @@ function limparErros() {
   if (existe(forgotError)) forgotError.textContent = "";
   if (existe(modalCard)) modalCard.classList.remove("has-error");
   if (existe(modalCard) && existe(modeBiz) && !modeBiz.classList.contains("hidden")) {
-  modalCard.classList.add("no-close");
-}
+    modalCard.classList.add("no-close");
+  }
 }
 
 function nomeValido(nome) {
@@ -44,6 +81,7 @@ function emailValido(email) {
   const e = (email || "").trim().toLowerCase();
   return /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(e);
 }
+
 const STORAGE_KEY_BIZ = "andalogo_estabelecimentos";
 
 function getBizDB() {
@@ -61,6 +99,7 @@ function setBizDB(db) {
 function normalizarEmail(email) {
   return (email || "").trim().toLowerCase();
 }
+
 /* =========================
    SUCESSO (CLIENTE)
 ========================= */
@@ -217,7 +256,6 @@ function mostrarApenas(target) {
     else modalCard.classList.remove("no-close");
   }
 
-
   limparErros();
 }
 
@@ -284,56 +322,6 @@ function maskPhone(v) {
   if (d.length <= 10) return `(${d.slice(0,2)}) ${d.slice(2,6)}-${d.slice(6)}`;
   return `(${d.slice(0,2)}) ${d.slice(2,7)}-${d.slice(7)}`;
 }
-
-if (existe(btnSignupBiz)) {
-  btnSignupBiz.addEventListener("click", () => {
-    const msg = validarEtapa2();
-    if (msg) {
-      if (existe(signupError2)) signupError2.textContent = msg;
-      if (existe(modalCard)) modalCard.classList.add("has-error");
-      shakeModal();
-      return;
-    }
-
-    const db = getBizDB();
-
-    const emailRaw = signupBizEmail?.value || "";
-    const email = normalizarEmail(emailRaw);
-    const pass = signupBizPass?.value || "";
-
-    // bloqueia email duplicado
-    if (db[email]) {
-      if (existe(signupError2)) signupError2.textContent = "Esse e-mail já está cadastrado. Faça login.";
-      if (existe(modalCard)) modalCard.classList.add("has-error");
-      shakeModal();
-      return;
-    }
-
-    // salva dados do estabelecimento (você pode guardar mais campos se quiser)
-    db[email] = {
-      senha: pass,
-      nome: signupBizName?.value?.trim() || "",
-      cnpj: signupBizCnpj?.value?.trim() || "",
-      categoria: signupBizCategory?.value?.trim() || "",
-      cidade: signupBizCity?.value?.trim() || "",
-      uf: signupBizUF?.value?.trim() || "",
-      telefone: signupBizPhone?.value?.trim() || "",
-      criadoEm: new Date().toISOString(),
-    };
-
-    setBizDB(db);
-
-    // volta pro login e (opcional) preenche o email
-    abrirModoBiz();
-    if (existe(bizEmail)) bizEmail.value = email;
-    if (existe(bizPass)) bizPass.value = "";
-    if (existe(bizError)) bizError.textContent = "Conta criada! Faça login.";
-
-    // se quiser já logar direto, troque por:
-    // window.location.href = "Dashboard.html";
-  });
-}
-
 
 if (existe(signupBizPhone)) {
   signupBizPhone.addEventListener("input", () => {
@@ -412,8 +400,14 @@ function validarEtapa2() {
 
   return "";
 }
+
+/* ==========================================================
+   ✅ CADASTRO ESTABELECIMENTO (AGORA SALVA NO MYSQL)
+   - Mantém todo seu fluxo/validações/UX
+   - Remove duplicidade: só existe ESTE handler
+========================================================== */
 if (existe(btnSignupBiz)) {
-  btnSignupBiz.addEventListener("click", () => {
+  btnSignupBiz.addEventListener("click", async () => {
     const msg = validarEtapa2();
     if (msg) {
       if (existe(signupError2)) signupError2.textContent = msg;
@@ -422,27 +416,64 @@ if (existe(btnSignupBiz)) {
       return;
     }
 
-    if (existe(signupError2)) signupError2.textContent = "";
-    if (existe(modalCard)) modalCard.classList.remove("has-error");
+    try {
+      if (existe(signupError2)) signupError2.textContent = "";
+      if (existe(modalCard)) modalCard.classList.remove("has-error");
 
-    // placeholder
-    console.log("Em breve: criar estabelecimento (2 etapas).", {
-      etapa1: {
-        nome: signupBizName?.value?.trim(),
-        cnpj: signupBizCnpj?.value?.trim(),
-        categoria: signupBizCategory?.value?.trim(),
-        cidade: signupBizCity?.value?.trim(),
-        uf: signupBizUF?.value?.trim(),
-        telefone: signupBizPhone?.value?.trim(),
-      },
-      etapa2: {
-        email: signupBizEmail?.value?.trim(),
-        queueName: signupQueueName?.value?.trim(),
-        avgTime: signupAvgTime?.value,
-        maxRadius: signupMaxRadius?.value,
-        capacity: signupCapacity?.value,
+      // tenta pegar geo, mas NÃO bloqueia se falhar
+      let geo = { latitude: null, longitude: null };
+      try {
+        geo = await getGeo();
+      } catch {
+        // sem permissão / sem suporte: segue com null
       }
-    });
+
+      const payload = {
+        nome: signupBizName?.value?.trim() || "",
+        cidade: signupBizCity?.value?.trim() || null,
+        cnpj: signupBizCnpj?.value?.trim() || null,
+        categoria: signupBizCategory?.value?.trim() || null,
+        estado: signupBizUF?.value?.trim() || null,
+        telefone: signupBizPhone?.value?.trim() || null,
+        email: signupBizEmail?.value?.trim() || "",
+        senha: signupBizPass?.value || "",
+        latitude: geo.latitude,
+        longitude: geo.longitude,
+        raio_alerta: null,
+      };
+
+      // chama API (FastAPI)
+      await postJSON(`${API_BASE}/api/estabelecimentos`, payload);
+
+      // (opcional) mantém seu localStorage pra não quebrar login local existente
+      // Se você quiser que o login também vá pro MySQL depois, eu ajusto.
+      const db = getBizDB();
+      const emailNorm = normalizarEmail(payload.email);
+      if (!db[emailNorm]) {
+        db[emailNorm] = {
+          senha: payload.senha, // atenção: isso é só pra compatibilidade com seu login local atual
+          nome: payload.nome || "",
+          cnpj: payload.cnpj || "",
+          categoria: payload.categoria || "",
+          cidade: payload.cidade || "",
+          uf: payload.estado || "",
+          telefone: payload.telefone || "",
+          criadoEm: new Date().toISOString(),
+        };
+        setBizDB(db);
+      }
+
+      // volta pro login
+      abrirModoBiz();
+      if (existe(bizEmail)) bizEmail.value = normalizarEmail(payload.email);
+      if (existe(bizPass)) bizPass.value = "";
+      if (existe(bizError)) bizError.textContent = "Conta criada no banco! Faça login.";
+
+    } catch (e) {
+      if (existe(signupError2)) signupError2.textContent = e.message || "Erro ao cadastrar.";
+      if (existe(modalCard)) modalCard.classList.add("has-error");
+      shakeModal();
+    }
   });
 }
 
@@ -611,4 +642,3 @@ if (_mostrarApenasOriginal) {
     syncCloseButton();
   };
 }
-
