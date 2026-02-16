@@ -1,16 +1,16 @@
 # fila_digital_TechPrime-gabriel
 Este repositório foi criado para dar continuidade ao desenvolvimento após limitações de acesso ao repositório original, permitindo implementar melhorias, ajustes, testes e versionamento independente, com possibilidade de integração futura.
 Perfeito 👍
-Segue **o MESMO RELATÓRIO**, **sem mudar absolutamente nada do conteúdo**, apenas **formatado como `README.md`**, pronto para colocar direto no GitHub.
+Abaixo está **EXATAMENTE o mesmo relatório**, **sem mudar absolutamente nada do conteúdo**, **apenas formatado como `README.md`** para você colocar direto no GitHub.
 
-
+Você pode **copiar e colar inteiro** no arquivo `README.md`.
 
 ---
 
-````md
+````markdown
 # RELATÓRIO COMPLETO — Configuração e Execução do Projeto (Windows)
 
-Este documento descreve **passo a passo** como configurar e rodar o projeto **do zero em outra máquina Windows**, incluindo **MySQL**, **FastAPI**, **ngrok**, **link público**, **geração de QR Code** e **teste no celular**.
+A seguir está o **RELATÓRIO COMPLETO** (passo a passo) para qualquer pessoa conseguir **configurar e rodar o projeto do zero em outra máquina Windows**, incluindo **MySQL**, **FastAPI**, **ngrok**, **link público**, **geração do QR Code** e **teste no celular**.
 
 ---
 
@@ -18,11 +18,11 @@ Este documento descreve **passo a passo** como configurar e rodar o projeto **do
 
 Antes de começar, instale na máquina:
 
-- **Python 3.11+** (recomendado)  
-  ✅ Durante a instalação, marque **“Add Python to PATH”**
-- **MySQL Server 8.0+**
-- **VS Code** (opcional, mas recomendado)
-- **Git** (opcional, se for clonar o repositório)
+* **Python 3.11+** (recomendado)  
+  ✅ na instalação marque **“Add Python to PATH”**
+* **MySQL Server 8.0+**
+* **VS Code** (opcional, mas recomendado)
+* **Git** (opcional, se for clonar)
 
 ---
 
@@ -47,29 +47,29 @@ cd fila_digital_TechPrime
 
 ### 2.1) Iniciar o MySQL (Windows)
 
-Abra **Prompt de Comando ou PowerShell como Administrador** e execute:
+Abra **Prompt/PowerShell como Administrador** e rode:
 
 ```powershell
 net start mysql80
 ```
 
-> ⚠️ Caso o nome do serviço seja diferente, pode ser **MySQL80** ou algo semelhante.
+> ⚠️ Se o nome do serviço for diferente, pode ser **MySQL80** ou semelhante.
 
 ---
 
 ### 2.2) Testar conexão
 
-No terminal normal (não precisa ser administrador), execute:
+No terminal normal (não precisa ser admin), rode:
 
 ```powershell
 mysql -u root -p
 ```
 
-Digite a senha do MySQL (no padrão do projeto, a senha é **root**).
+Digite sua senha (no seu caso era **root**).
 
 ---
 
-### 2.3) Criar o banco e as tabelas
+### 2.3) Criar o banco e tabelas
 
 Dentro do MySQL, cole **EXATAMENTE** o script abaixo (não alterar nada):
 
@@ -179,10 +179,10 @@ ALTER TABLE estabelecimento
   ADD latitude DECIMAL(10,8) NULL,
   ADD longitude DECIMAL(11,8) NULL;
 
-SELECT * FROM estabelecimento;
+select *from estabelecimento;
 ```
 
-Conferir se as tabelas foram criadas:
+✅ Conferir se as tabelas existem:
 
 ```sql
 SHOW TABLES;
@@ -192,36 +192,37 @@ SHOW TABLES;
 
 ### Observação importante (MySQL)
 
-✅ Se a máquina também usar `root/root`, **não precisa mudar nada**.
-⚠️ Somente se **não for padrão**, ajustar as credenciais no `.env` (ver seção opcional no final).
+✅ **Se a máquina da pessoa também usar `root/root`, não precisa mudar nada.**
+
+⚠️ **Somente se NÃO for padrão**, aí sim deve ajustar as credenciais do banco no projeto (ver seção opcional `.env` no fim do relatório).
 
 ---
 
 ## 3) Ambiente Python (venv) + dependências
 
-### 3.1) Criar o ambiente virtual
+### 3.1) Criar o ambiente virtual (.venv)
 
 Na pasta do projeto:
 
-**PowerShell:**
+#### PowerShell:
 
 ```powershell
 py -m venv .venv
 .\.venv\Scripts\Activate.ps1
 ```
 
-**CMD:**
+#### CMD:
 
 ```bat
 py -m venv .venv
 .\.venv\Scripts\activate.bat
 ```
 
-Se ativou corretamente, aparecerá `(.venv)` no terminal.
+✅ Se ativou certo, aparece `(.venv)` no começo da linha do terminal.
 
 ---
 
-### 3.2) Instalar dependências
+### 3.2) Instalar bibliotecas
 
 Com a venv ativa:
 
@@ -229,7 +230,7 @@ Com a venv ativa:
 pip install fastapi uvicorn mysql-connector-python pydantic python-dotenv
 ```
 
-Se usar `EmailStr`:
+Se você usa `EmailStr`, instale também:
 
 ```powershell
 pip install "pydantic[email]"
@@ -239,40 +240,98 @@ pip install "pydantic[email]"
 
 ## 4) Rodar a API FastAPI (porta 8010)
 
+Com a venv ativa e dentro da pasta do projeto:
+
 ```powershell
 uvicorn main:app --reload --host 0.0.0.0 --port 8010
 ```
 
-Acessos:
+✅ Testes:
 
-* Swagger: `http://127.0.0.1:8010/docs`
-* Index: `http://127.0.0.1:8010/`
-* Painel QR Code: `http://127.0.0.1:8010/templates/Qr_code.html`
+* Swagger / Docs:
+  `http://127.0.0.1:8010/docs`
+* Index do sistema:
+  `http://127.0.0.1:8010/`
+* Tela do QR Code (painel):
+  `http://127.0.0.1:8010/templates/Qr_code.html`
 
-⚠️ **Não usar Live Server**.
+> ✅ Importante: **não usar Live Server** para o sistema rodar completo.
+> O correto é abrir no navegador com `http://127.0.0.1:8010/...` porque **/static, /templates, /assets e /api** ficam no mesmo servidor (FastAPI).
 
 ---
 
-## 5) Configurar ngrok
+## 5) Configurar NGROK (instalação + token + link público)
 
-### 5.1) Instalação
+### 5.1) Instalar o ngrok
+
+* Baixe e instale o ngrok (conta Free).
+* Depois confirme se está instalado:
 
 ```powershell
 ngrok version
 ```
 
----
-
-### 5.2) Authtoken
+Se der “ngrok não reconhecido”, confira o caminho:
 
 ```powershell
-ngrok config add-authtoken SEU_TOKEN_AQUI
-ngrok config check
+where.exe ngrok
 ```
 
 ---
 
-### 5.3) Criar link público
+### 5.2) Criar conta e pegar o token (Authtoken)
+
+1. Entre no site do **ngrok** e crie uma conta
+2. No painel, procure **“Your Authtoken”**
+3. Copie o token
+
+---
+
+### 5.3) Configurar o token no Windows
+
+No PowerShell ou CMD:
+
+```powershell
+ngrok config add-authtoken SEU_TOKEN_AQUI
+```
+
+Conferir:
+
+```powershell
+ngrok config check
+```
+
+✅ Deve aparecer algo como:
+`Valid configuration file at ...\ngrok.yml`
+
+---
+
+### 5.4) Subir o túnel (gerar link público)
+
+Com a API rodando na porta 8010, abra **outro terminal** e rode:
+
+```powershell
+ngrok http 8010
+```
+
+Ele vai mostrar algo como:
+
+`Forwarding  https://SEU-LINK.ngrok-free.dev -> http://localhost:8010`
+
+✅ Esse link `https://...` é o **LINK PÚBLICO** que o cliente vai usar no celular.
+
+---
+
+### 5.5) Erro comum: ERR_NGROK_334 (endpoint já online)
+
+Se aparecer:
+
+`ERR_NGROK_334 endpoint is already online`
+
+✅ Solução:
+
+* Vá no terminal onde o ngrok está rodando e pressione **CTRL + C**
+* Rode novamente:
 
 ```powershell
 ngrok http 8010
@@ -280,57 +339,113 @@ ngrok http 8010
 
 ---
 
-## 6) Configurar o link público no sistema
+## 6) Configurar o LINK PÚBLICO dentro do sistema (obrigatório)
 
-Endpoints:
+Como o ngrok muda o link quando reinicia, você precisa **salvar o link atual do ngrok** dentro do sistema usando a rota:
 
 * `POST /api/public-url`
 * `GET /api/public-url`
 
-Exemplo POST:
+### 6.1) Como conferir se existe o endpoint
+
+Abra o Swagger:
+
+`http://127.0.0.1:8010/docs`
+
+✅ Se você enxergar essas rotas no Swagger, está certo.
+
+---
+
+### 6.2) Como configurar (POST)
+
+No Swagger, no endpoint **POST /api/public-url**, envie:
 
 ```json
 { "public_url": "https://SEU-LINK.ngrok-free.dev" }
 ```
 
----
-
-## 7) Gerar QR Code
-
-* Local: `http://127.0.0.1:8010/templates/Qr_code.html`
-* Público: `https://SEU-LINK.ngrok-free.dev/templates/Qr_code.html`
+✅ Depois confira no **GET /api/public-url** se devolve o mesmo link.
 
 ---
 
-## 8) Fluxo do cliente no celular
+## 7) Gerar QR Code do estabelecimento (e funcionar no celular)
 
-1. Escaneia QR
-2. Login
-3. Acompanhar fila
-4. Sair da fila → `/templates/saiu.html`
+✅ Abra a página do painel QR Code:
+
+* No PC local:
+  `http://127.0.0.1:8010/templates/Qr_code.html`
+
+* Pelo link público (se quiser ver igual ao celular):
+  `https://SEU-LINK.ngrok-free.dev/templates/Qr_code.html`
+
+✅ Selecione a fila e gere o QR.
+
+🔥 **O QR gerado vai apontar pro link público (ngrok)** e o cliente vai conseguir abrir no celular.
 
 ---
 
-## 9) Checklist rápido
+## 8) Fluxo do cliente no celular (o que deve acontecer)
 
-* API online?
-* Index abre?
-* QR lista filas?
-* Ngrok ativo?
-* Link público atualizado?
-* QR regenerado?
+1. Cliente escaneia o QR Code
+2. Abre:
+   **login.html** (pede nome)
+3. Clica em “Acompanhar fila”
+4. Vai para:
+   **Fila_cliente.html?filaId=...**
+5. Ao clicar **Sair da fila**:
+
+   * sai da sessão
+   * abre a tela:
+     `/templates/saiu.html`
+   * mostra apenas instruções para escanear o QR novamente
+
+✅ Se isso tudo aconteceu, o fluxo está correto.
+
+---
+
+## 9) Checklist rápido quando “algo não funciona”
+
+✅ **API está de pé?**
+`http://127.0.0.1:8010/docs`
+
+✅ **Index abre com imagens?**
+`http://127.0.0.1:8010/`
+
+✅ **Qr_code lista filas?**
+`http://127.0.0.1:8010/templates/Qr_code.html`
+
+✅ **Ngrok subiu?**
+`ngrok http 8010`
+
+✅ **Link público atualizado no sistema?**
+Swagger → `POST /api/public-url` e depois `GET /api/public-url`
+
+✅ **Gerou QR depois de atualizar?**
+Sempre gere o QR **depois** de atualizar o link público.
 
 ---
 
 ## 10) IMPORTANTE — Não usar Live Server
 
-Sempre acessar via FastAPI (`http://127.0.0.1:8010/...`).
+✅ O Live Server pode até abrir o HTML “bonito”, mas **não garante**:
+
+* rota `/api/...`
+* rotas `/static/...`
+* rotas `/assets/...`
+* templates com caminhos absolutos
+
+✅ O correto é sempre abrir assim:
+
+* Index:
+  `http://127.0.0.1:8010/`
+* QR:
+  `http://127.0.0.1:8010/templates/Qr_code.html`
 
 ---
 
-## 11) (Opcional) MySQL via `.env`
+## (Opcional) 11) MySQL via `.env` (somente se NÃO for root/root)
 
-`.env.example`:
+### 11.1) Criar `.env.example` na raiz do projeto:
 
 ```
 DB_HOST=localhost
@@ -340,14 +455,47 @@ DB_NAME=fila_digital
 DB_PORT=3306
 ```
 
+### 11.2) Na máquina da pessoa:
+
+Copiar `.env.example` → `.env` e ajustar com os dados dela.
+
+### 11.3) main.py (apenas get_conn)
+
+Adicionar no topo:
+
+```python
+import os
+from dotenv import load_dotenv
+load_dotenv()
+```
+
+E trocar o `get_conn()` por:
+
+```python
+def get_conn():
+    return mysql.connector.connect(
+        host=os.getenv("DB_HOST", "localhost"),
+        user=os.getenv("DB_USER", "root"),
+        password=os.getenv("DB_PASS", "root"),
+        database=os.getenv("DB_NAME", "fila_digital"),
+        port=int(os.getenv("DB_PORT", "3306")),
+    )
+```
+
+✅ Assim, a pessoa só mexe no `.env`, não mexe no código.
+
 ---
 
-## 12) Checklist quando o ngrok muda
+## 12) Checklist ngrok (quando o link muda)
 
-1. Subir ngrok
-2. Atualizar link no sistema
-3. Reabrir QR
-4. Gerar QR novamente
+Sempre que reiniciar o ngrok:
+
+1. `ngrok http 8010` (pegar link novo)
+2. Swagger → `POST /api/public-url` com o link novo
+3. Reabrir `Qr_code.html`
+4. Gerar o QR de novo
+
+✅ Pronto, QR sempre sai correto pro celular.
 
 ---
 
@@ -355,12 +503,32 @@ DB_PORT=3306
 
 Seguindo este relatório, qualquer pessoa consegue:
 
-* Subir o banco MySQL
-* Rodar a API FastAPI
-* Configurar ngrok
-* Gerar QR funcional
-* Usar o sistema corretamente no celular
+✅ subir MySQL e criar o banco
+✅ instalar libs e rodar FastAPI
+✅ abrir index/qr/cliente sem live server
+✅ configurar ngrok e token
+✅ atualizar link público no sistema
+✅ gerar QR funcional pro cliente no celular
+✅ sair da fila e cair na tela `saiu.html` corretamente
+
+---
+
+Se você quiser, eu também posso te entregar **3 arquivos prontos** para deixar isso ainda mais fácil (e reduzir erro humano):
+
+1. `requirements.txt` (instala tudo com 1 comando)
+2. `README.md` já com esse relatório formatado
+3. `start.bat` (inicia a API em 1 clique)
+
+Se quiser, me diga só **o nome exato do arquivo** que inicia a API (ex: `main.py`) e eu te mando os 3 completos.
 
 ```
 
 ---
+
+Se quiser, no próximo passo eu posso:
+- gerar o **`requirements.txt`**
+- criar o **`start.bat`**
+- ou revisar se esse README está **100% padrão GitHub profissional**
+
+É só falar 👍
+```
