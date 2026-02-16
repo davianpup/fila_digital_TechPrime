@@ -1,14 +1,5 @@
 # fila_digital_TechPrime-gabriel
 Este repositório foi criado para dar continuidade ao desenvolvimento após limitações de acesso ao repositório original, permitindo implementar melhorias, ajustes, testes e versionamento independente, com possibilidade de integração futura.
-Segue o **README.md corrigido e pronto pra colar**, já com:
-
-* ✅ `git clone` e `cd` com o **seu repositório real**
-* ✅ reforço de **abrir no navegador (sem Live Server)**
-* ✅ passo “**2 terminais**” (API e ngrok)
-* ✅ teste de **/assets** (pra garantir imagens do index)
-* ✅ **SQL mantido igual ao que você enviou** (não alterei nada no script)
-
-> **Cole isso inteiro no seu `README.md` do GitHub.**
 
 ---
 
