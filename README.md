@@ -37,8 +37,8 @@ Antes de começar, instale na máquina:
 Abra o terminal na pasta onde deseja salvar o projeto:
 
 ```powershell
-git clone <URL_DO_REPOSITORIO>
-cd fila_digital_TechPrime
+git clone https://github.com/Gabriel-Oliveira-Duarte/fila_digital_TechPrime-gabriel.git cd fila_digital_TechPrime-gabriel
+`
 ```
 
 ### Caso tenha baixado em ZIP
@@ -46,7 +46,7 @@ cd fila_digital_TechPrime
 Apenas extraia o arquivo e entre na pasta do projeto:
 
 ```powershell
-cd fila_digital_TechPrime
+cd fila_digital_TechPrime-gabriel
 ```
 
 ---
