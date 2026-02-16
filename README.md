@@ -205,7 +205,7 @@ SHOW TABLES;
 
 ---
 
-## 3️⃣ Ambiente Python (venv) + dependências
+## 3️⃣ Ambiente Python (venv) + dependências (na pasta do main.py)
 
 ### 3.1️⃣ Criar ambiente virtual (.venv)
 
