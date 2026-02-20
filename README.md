@@ -227,7 +227,7 @@ python -m venv .venv
 
 ---
 
-### 3.2️⃣ Instalar dependências
+### 3.1️⃣ Instalar dependências
 
 No mesmo terminal onde a venv está ativa:
 
