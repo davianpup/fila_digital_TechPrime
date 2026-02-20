@@ -249,7 +249,7 @@ Ainda dentro do mesmo cmd rode:
 uvicorn main:app --reload --host 0.0.0.0 --port 8010
 ```
 
-### Testes
+### Testes (somente conferir se abriu)
 
 * Swagger / Docs
   👉 [[http://127.0.0.1:8010/docs](http://127.0.0.1:8010/docs)]
