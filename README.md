@@ -202,7 +202,7 @@ CREATE TABLE qr_code (
       ON DELETE SET NULL
       ON UPDATE CASCADE
 );
-
+```
 ---
 
 ##📌 Observação importante (MySQL)
