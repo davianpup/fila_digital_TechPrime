@@ -37,7 +37,7 @@ cd fila_digital_TechPrime
 Apenas extraia o arquivo e entre na pasta do projeto:
 
 ```powershell
-cd fila_digital_TechPrime-gabriel
+cd fila_digital_TechPrime
 ```
 
 ---
