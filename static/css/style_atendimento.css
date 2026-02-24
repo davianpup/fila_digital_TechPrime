@@ -390,3 +390,78 @@ h1{margin:8px 0 4px;font-size:34px;letter-spacing:-.6px}
   font-size:13px;
   color:#888;
 }
+
+.finishOverlay{
+  position: fixed; inset: 0;
+  background: rgba(0,0,0,.65);
+  display: none;
+  align-items: center;
+  justify-content: center;
+  z-index: 9999;
+  padding: 16px;
+}
+.finishOverlay.show{ display: flex; }
+
+.finishCard{
+  width: min(560px, 92vw);
+  border-radius: 18px;
+  padding: 26px;
+  background: rgba(25,20,15,.92);
+  border: 1px solid rgba(255,140,0,.35);
+  box-shadow: 0 20px 60px rgba(0,0,0,.5);
+  text-align: center;
+}
+
+.finishTitle{ margin: 0 0 10px; font-size: 34px; letter-spacing: 1px; }
+.title-orange{ color: #ff8c00; font-weight: 800; }
+.title-white{ color: #eee; font-weight: 800; }
+
+.finishMsg{ margin: 6px 0 6px; color: #fff; font-size: 22px; }
+.finishSub{ margin: 0 0 14px; color: rgba(255,255,255,.8); }
+
+.finishTip{
+  margin: 0 auto 16px;
+  padding: 12px 14px;
+  border-radius: 12px;
+  background: rgba(0,0,0,.25);
+  color: rgba(255,255,255,.85);
+  border: 1px solid rgba(255,255,255,.08);
+  max-width: 420px;
+}
+
+.finishBtn{
+  width: 100%;
+  border: 0;
+  padding: 12px 14px;
+  border-radius: 12px;
+  font-weight: 700;
+  cursor: pointer;
+}
+
+/* Tema claro/escuro via data-theme no <html> */
+:root[data-theme="dark"] {
+  color-scheme: dark;
+}
+
+:root[data-theme="light"] {
+  color-scheme: light;
+}
+
+/* Exemplo básico (você pode adaptar pro seu design) */
+:root[data-theme="light"] body {
+  background: #f5f6f8;
+  color: #111;
+}
+
+:root[data-theme="light"] .panel,
+:root[data-theme="light"] .sidebar,
+:root[data-theme="light"] .topbar {
+  background: rgba(0,0,0,.05);
+  border-color: rgba(0,0,0,.08);
+  color: #111;
+}
+
+:root[data-theme="light"] .subtitle,
+:root[data-theme="light"] small {
+  color: rgba(0,0,0,.65);
+}

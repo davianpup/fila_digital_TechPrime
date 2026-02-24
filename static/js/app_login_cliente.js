@@ -26,6 +26,7 @@ const successName = document.getElementById("successName");
 const queueNumber = document.getElementById("queueNumber");
 
 const btnAcompanhar = document.querySelector(".successBtn");
+const btnClient = document.getElementById("btnClient");
 
 // ================= VALIDAÇÃO =================
 function nomeValido(nome) {
@@ -33,10 +34,9 @@ function nomeValido(nome) {
 }
 
 // ================= ABRIR SUCESSO =================
-function abrirSucesso(nome) {
+function abrirSucesso(nome, posicao) {
   successName.textContent = nome;
-  queueNumber.textContent = "#001"; // aqui depois você pode trocar por posição real da API
-
+  queueNumber.textContent = `#${String(posicao || 1).padStart(3, "0")}`;
   overlay.classList.add("show");
   overlay.setAttribute("aria-hidden", "false");
   document.body.classList.add("lock");
@@ -45,40 +45,86 @@ function abrirSucesso(nome) {
 // ================= IR PARA FILA =================
 function irParaFila() {
   const filaId = getFilaId();
-  const next = getNextPage();
+  const next = (getNextPage() || "Fila_cliente.html").trim();
 
   if (!filaId) {
     alert("Link inválido. Entre pela leitura do QR Code.");
     return;
   }
 
-  // monta URL absoluta (garante /templates/ mesmo no celular/ngrok)
-  const url = new URL(next, TEMPLATES_BASE);
-  url.searchParams.set("filaId", String(filaId));
+  let urlFinal;
 
-  window.location.href = url.toString();
+  // URL completa (ngrok, etc.)
+  if (/^https?:\/\//i.test(next)) {
+    urlFinal = new URL(next);
+  }
+  // Caminho absoluto (/templates/...)
+  else if (next.startsWith("/")) {
+    urlFinal = new URL(window.location.origin + next);
+  }
+  // Só nome do arquivo
+  else {
+    urlFinal = new URL(`/templates/${next}`, window.location.origin);
+  }
+
+  urlFinal.searchParams.set("filaId", String(filaId));
+
+  window.location.href = urlFinal.toString();
 }
 
-// ================= EVENTOS =================
-form.addEventListener("submit", (e) => {
+// ================= SUBMIT (ÚNICO) =================
+let isSubmitting = false;
+
+form.addEventListener("submit", async (e) => {
   e.preventDefault();
+  if (isSubmitting) return; // 🔒 evita duplo POST
 
   const nome = nomeInput.value.trim();
-
   if (!nomeValido(nome)) {
     errorEl.textContent = "Digite um nome válido (mínimo 3 caracteres).";
     return;
   }
-
   errorEl.textContent = "";
 
-  // salva nome pro Fila_cliente.html usar
-  localStorage.setItem("CLIENTE_NOME", nome);
+  const filaId = getFilaId();
+  if (!filaId) {
+    alert("Link inválido. Entre pela leitura do QR Code.");
+    return;
+  }
 
-  abrirSucesso(nome);
+  try {
+    isSubmitting = true;
+    if (btnClient) btnClient.disabled = true;
+
+    const resp = await fetch(`${ORIGIN}/api/filas/${filaId}/entrar`, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ nome })
+    });
+
+    const data = await resp.json().catch(() => ({}));
+
+    if (!resp.ok || !data.ok) {
+      throw new Error(data.detail || "Falha ao entrar na fila.");
+    }
+
+    // salva sessão pro Fila_cliente.html
+    localStorage.setItem(`cliente_session_${filaId}`, String(data.cliente_id));
+    localStorage.setItem("CLIENTE_NOME", nome);
+
+    // ✅ usa posição real do backend
+    abrirSucesso(nome, data.posicao);
+
+  } catch (err) {
+    errorEl.textContent = err.message || "Erro ao entrar na fila.";
+  } finally {
+    isSubmitting = false;
+    if (btnClient) btnClient.disabled = false;
+  }
 });
 
-btnAcompanhar.addEventListener("click", irParaFila);
+// ================= EVENTOS =================
+btnAcompanhar?.addEventListener("click", irParaFila);
 
 // Editar nome
 document.getElementById("editNameBtn")?.addEventListener("click", () => {

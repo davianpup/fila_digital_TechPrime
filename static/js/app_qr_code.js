@@ -1,3 +1,59 @@
+console.log("[QR] app_qr_code.js carregou");
+
+// ✅ garante que sempre exista nomeEstabelecimento
+(function syncNomeEstab() {
+  const ja = localStorage.getItem("nomeEstabelecimento");
+  if (ja && ja.trim()) return;
+
+  const n = localStorage.getItem("estabelecimento_nome");
+  if (n && n.trim()) localStorage.setItem("nomeEstabelecimento", n.trim());
+})();
+
+document.addEventListener("DOMContentLoaded", () => {
+  const nome =
+    localStorage.getItem("nomeEstabelecimento") ||
+    localStorage.getItem("estabelecimento_nome") ||
+    "—";
+
+  const el = document.getElementById("nomeEstabelecimento");
+  const header = document.getElementById("estabHeader");
+
+  if (el) el.textContent = nome;
+  if (header) header.title = `Estabelecimento: ${nome}`;
+});+
+// ===============================
+// ESTABELECIMENTO (nome dinâmico)
+// ===============================
+(function syncNomeEstab() {
+  // garante chave padrão
+  const ja = localStorage.getItem("nomeEstabelecimento");
+  if (ja && ja.trim()) return;
+
+  const n = localStorage.getItem("estabelecimento_nome");
+  if (n && n.trim()) localStorage.setItem("nomeEstabelecimento", n.trim());
+})();
+
+function obterNomeEstabelecimento() {
+  const nome =
+    localStorage.getItem("nomeEstabelecimento") ||
+    localStorage.getItem("estabelecimento_nome") ||
+    localStorage.getItem("nome_estabelecimento") ||
+    localStorage.getItem("estab_nome");
+
+  return nome && nome.trim() ? nome.trim() : null;
+}
+
+function preencherNomeNoTopo() {
+  const nome = obterNomeEstabelecimento();
+  const el = document.getElementById("nomeEstabelecimento");
+  const header = document.getElementById("estabHeader");
+
+  if (el) el.textContent = nome || "—";
+  if (header) header.title = `Estabelecimento: ${nome || "—"}`;
+}
+
+document.addEventListener("DOMContentLoaded", preencherNomeNoTopo);
+
 // ================= SIDEBAR MOBILE =================
 const sidebar = document.getElementById("sidebar");
 const backdrop = document.getElementById("backdrop");
@@ -106,8 +162,6 @@ async function carregarPublicUrl() {
 }
 
 // ================= LINK PARA CLIENTE (QR) =================
-// ✅ Se PUBLIC_ORIGIN existir -> QR usa NGROK
-// ✅ Se não existir -> QR usa o local (útil para teste)
 function gerarLinkCliente(filaId) {
   const base = (PUBLIC_ORIGIN || ORIGIN).replace(/\/+$/, "");
 
@@ -301,10 +355,6 @@ async function carregarFilas() {
       );
     }
 
-    // ✅ aceita vários formatos:
-    // - array direto: [...]
-    // - objeto: { filas: [...] } ou { data: [...] }
-    // - swagger bug: "string"
     let lista = [];
     if (Array.isArray(data)) lista = data;
     else if (data && Array.isArray(data.filas)) lista = data.filas;
@@ -331,8 +381,9 @@ async function carregarFilas() {
     showToast(err.message || "Erro ao carregar filas");
   }
 }
+
 // ================= INIT =================
 (async function init() {
-  await carregarPublicUrl(); // pega public_url se você tiver setado no backend
-  await carregarFilas();     // lista filas e gera QR
+  await carregarPublicUrl();
+  await carregarFilas();
 })();

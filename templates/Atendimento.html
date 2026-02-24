@@ -58,10 +58,11 @@
           </button>
         </div>
 
-        <div class="estab" title="Estabelecimento: Barbearia Premium">
+        <!-- ✅ dinâmico -->
+        <div class="estab" id="estabHeader" title="Estabelecimento">
           <span class="dot"></span>
           <span>Estabelecimento:</span>
-          <b>&nbsp;Barbearia Premium</b>
+          <b>&nbsp;<span id="nomeEstabelecimento">—</span></b>
         </div>
 
         <div class="top-actions">
@@ -84,6 +85,7 @@
                 <h3>Status da fila</h3>
               </div>
             </div>
+
             <!-- Seletor de fila (novo) -->
             <div class="field" style="margin:0 4px 14px">
               <div class="label-row">
@@ -92,20 +94,21 @@
               </div>
 
               <select id="filaSelect" style="
-    width:100%;
-    border-radius:12px;
-    border:1px solid rgba(255,255,255,.08);
-    background:rgba(255,255,255,.04);
-    color:#fff;
-    padding:12px 12px;
-    outline:none;
-  ">
+                width:100%;
+                border-radius:12px;
+                border:1px solid rgba(255,255,255,.08);
+                background:rgba(255,255,255,.04);
+                color:#fff;
+                padding:12px 12px;
+                outline:none;
+              ">
                 <option value="">Carregando filas...</option>
               </select>
             </div>
+
             <div class="status-metrics">
               <div class="mini-card">
-                <div class="mini-value" id="totalFila">4</div>
+                <div class="mini-value" id="totalFila">0</div>
                 <div class="mini-label">Total na fila</div>
               </div>
 
@@ -126,10 +129,10 @@
               <div class="next-top">
                 <div>
                   <div class="next-title">Próximo da fila</div>
-                  <div class="next-name" id="proxNome">João Silva</div>
-                  <div class="next-sub" id="proxPosicao">Posição #001</div>
+                  <div class="next-name" id="proxNome">—</div>
+                  <div class="next-sub" id="proxPosicao">—</div>
                 </div>
-                <span class="badge badge-wait" id="proxBadge">Aguardando</span>
+                <span class="badge badge-wait" id="proxBadge">—</span>
               </div>
             </div>
           </div>
@@ -170,6 +173,7 @@
       </section>
     </main>
   </div>
+
   <!-- Modal Chamar Próximo -->
   <div id="callModal" class="call-modal">
     <div class="call-overlay"></div>
@@ -181,8 +185,25 @@
     </div>
   </div>
 
-  <!-- JS exclusivo -->
-  <script src="/static/js/app_atendimento.js"></script>
-</body>
+  <div class="finishOverlay" id="finishOverlay" aria-hidden="true">
+    <div class="finishCard">
+      <h1 class="finishTitle">
+        <span class="title-orange">ANDA</span><span class="title-white">LOGO</span>
+      </h1>
 
+      <h2 class="finishMsg">Atendimento finalizado!</h2>
+      <p class="finishSub" id="finishSub">Cliente atendido com sucesso.</p>
+
+      <div class="finishTip" id="finishTip">
+        Você pode chamar o próximo cliente.
+      </div>
+
+      <button class="finishBtn" id="finishOkBtn" type="button">OK</button>
+    </div>
+  </div>
+
+  <!-- JS exclusivo -->
+   <script src="/static/js/theme.js"></script>
+  <script src="/static/js/app_atendimento.js?v=4"></script>
+</body>
 </html>

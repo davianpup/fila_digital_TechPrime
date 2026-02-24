@@ -312,3 +312,31 @@ input:focus{
   .topbar{padding:0 14px}
   h1{font-size:28px}
 }
+
+/* Tema claro/escuro via data-theme no <html> */
+:root[data-theme="dark"] {
+  color-scheme: dark;
+}
+
+:root[data-theme="light"] {
+  color-scheme: light;
+}
+
+/* Exemplo básico (você pode adaptar pro seu design) */
+:root[data-theme="light"] body {
+  background: #f5f6f8;
+  color: #111;
+}
+
+:root[data-theme="light"] .panel,
+:root[data-theme="light"] .sidebar,
+:root[data-theme="light"] .topbar {
+  background: rgba(0,0,0,.05);
+  border-color: rgba(0,0,0,.08);
+  color: #111;
+}
+
+:root[data-theme="light"] .subtitle,
+:root[data-theme="light"] small {
+  color: rgba(0,0,0,.65);
+}

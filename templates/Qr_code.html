@@ -59,10 +59,11 @@
           </button>
         </div>
 
-        <div class="estab">
+        <!-- ✅ DINÂMICO -->
+        <div class="estab" id="estabHeader" title="Estabelecimento">
           <span class="dot"></span>
           <span>Estabelecimento:</span>
-          <b>&nbsp;Barbearia Premium</b>
+          <b>&nbsp;<span id="nomeEstabelecimento">—</span></b>
         </div>
 
         <div class="top-actions">
@@ -133,9 +134,10 @@
 
   <!-- 1️⃣ Biblioteca QR (obrigatório primeiro) -->
   <script src="/static/js/qrcodegen.js"></script>
+  <script src="/static/js/theme.js"></script>
 
   <!-- 2️⃣ Seu JS -->
-  <script src="/static/js/app_qr_code.js"></script>
+  <script src="/static/js/app_qr_code.js?v=3"></script>
 
 </body>
 </html>
