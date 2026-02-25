@@ -202,6 +202,29 @@ CREATE TABLE qr_code (
       ON DELETE SET NULL
       ON UPDATE CASCADE
 );
+
+CREATE TABLE fila_cliente (
+  idFilaCliente INT AUTO_INCREMENT PRIMARY KEY,
+  fila_idFila INT NOT NULL,
+  cliente_idCliente INT NOT NULL,
+
+  status ENUM('AGUARDANDO','CHAMADO','EM_ATENDIMENTO','FINALIZADO','SAIU') DEFAULT 'AGUARDANDO',
+  senha_codigo VARCHAR(10) NULL,
+  data_entrada DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  data_saida DATETIME NULL,
+
+  CONSTRAINT fk_fc_fila
+    FOREIGN KEY (fila_idFila) REFERENCES fila(idFila)
+    ON DELETE CASCADE
+    ON UPDATE CASCADE,
+
+  CONSTRAINT fk_fc_cliente
+    FOREIGN KEY (cliente_idCliente) REFERENCES cliente(idCliente)
+    ON DELETE CASCADE
+    ON UPDATE CASCADE
+);
+
+CREATE INDEX idx_fc_fila_status_data ON fila_cliente (fila_idFila, status, data_entrada);
 ```
 ---
 
